@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>Simple setInterval clock</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+      body {
+        background-color: black;
+      }
+
+      h1 {
+        font-family: Orbitron;
+        color: white;
+        font-size: 72px;
+      }
+
+      main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      button {
+        width: 121px;
+        padding: 10px 0;
+        margin: 3px;
+        font-size: 18px;
+        background-color: black;
+        color: white;
+        font-family: Orbitron;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1 class="clock"></h1>
+      <div>
+        <button id="start">START</button>
+        <button id="stop">STOP</button>
+        <button id="reset">RESET</button>
+      </div>
+    </main>
+    <script>
+
+
+      class Stopwatch {
+        constructor() {
+          this.currentState = 'paused';
+          this.seconds = 0;
+          this.minutes = 0;
+          this.hours = 0;
+
+          this.displayTimer = this.displayTimer.bind(this)
+          this.startTimer = this.startTimer.bind(this)
+          this.stopTimer = this.stopTimer.bind(this)
+          this.resetTimer = this.resetTimer.bind(this)
+          this.incrementTimer = this.incrementTimer.bind(this)
+        }
+
+      
+        startTimer() {
+          //ToDo
+          if (this.currentState === 'started') {
+            return
+          } else {
+            this.currentState === 'started'
+            document.getElementById('start').disabled = true;
+            this.interval = setInterval(this.incrementTimer, 1000)
+          }
+        }
+
+        incrementTimer() {
+          this.seconds += 1;
+          return this.displayTimer();
+        }
+
+        stopTimer() {
+          //ToDo
+          clearInterval(this.interval)
+          document.getElementById('start').disabled = false;
+
+        }
+
+        resetTimer() {
+          //ToDo
+          this.stopTimer()
+          this.seconds = 0;
+          this.minutes = 0;
+          this.hours = 0;
+          this.displayTimer();
+        }
+
+        formatTimer(val) {
+          let value = val.toString();
+          if (value.length < 2) {
+            return 0 + value;
+          } else {
+            return value;
+          }
+        }
+
+        displayTimer() {
+          //Timer
+          document.querySelector('.clock').textContent = `${this.formatTimer(this.hours)}:${this.formatTimer(this.minutes)}:${this.formatTimer(this.seconds)}`
+        }
+
+      }
+      const stopwatch = new Stopwatch()
+
+
+      const startButton = document.getElementById('start');
+      startButton.addEventListener('click', stopwatch.startTimer)
+
+      const stopButton = document.getElementById('stop');
+      stopButton.addEventListener('click', stopwatch.stopTimer)
+
+      const resetButton = document.getElementById('reset');
+      resetButton.addEventListener('click', stopwatch.resetTimer)
+
+        stopwatch.displayTimer();
+    </script>
+  </body>
+</html>
