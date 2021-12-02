@@ -49,11 +49,12 @@
 
       class Stopwatch {
         constructor() {
-          this.currentState = 'paused';
+          // Set values for stopwatch in class
           this.seconds = 0;
           this.minutes = 0;
           this.hours = 0;
 
+          // Bind this to methods, methods will be callbacks in event listeners therefore this must be bound to class to prevent using global object
           this.displayTimer = this.displayTimer.bind(this)
           this.startTimer = this.startTimer.bind(this)
           this.stopTimer = this.stopTimer.bind(this)
@@ -63,30 +64,26 @@
 
       
         startTimer() {
-          //ToDo
-          if (this.currentState === 'started') {
-            return
-          } else {
-            this.currentState === 'started'
+          // Disable start button to prevent second start and set interval to increment seconds
             document.getElementById('start').disabled = true;
             this.interval = setInterval(this.incrementTimer, 1000)
-          }
         }
 
         incrementTimer() {
+          // Increment seconds
           this.seconds += 1;
           return this.displayTimer();
         }
 
         stopTimer() {
-          //ToDo
+          // Stop timer by clearing interval, allow start button to reappear
           clearInterval(this.interval)
           document.getElementById('start').disabled = false;
 
         }
 
         resetTimer() {
-          //ToDo
+          // Stop timer if not already and reset all values to 0
           this.stopTimer()
           this.seconds = 0;
           this.minutes = 0;
@@ -95,6 +92,7 @@
         }
 
         formatTimer(val) {
+          // Format the current time to have double figures
           let value = val.toString();
           if (value.length < 2) {
             return 0 + value;
@@ -104,14 +102,17 @@
         }
 
         displayTimer() {
-          //Timer
+          // Show timer
           document.querySelector('.clock').textContent = `${this.formatTimer(this.hours)}:${this.formatTimer(this.minutes)}:${this.formatTimer(this.seconds)}`
         }
 
       }
+
+      // Create instance of timer
       const stopwatch = new Stopwatch()
 
 
+      // Create variables for buttons and add event listeners with callback functions
       const startButton = document.getElementById('start');
       startButton.addEventListener('click', stopwatch.startTimer)
 
@@ -121,7 +122,8 @@
       const resetButton = document.getElementById('reset');
       resetButton.addEventListener('click', stopwatch.resetTimer)
 
-        stopwatch.displayTimer();
+      // Show timer on page load
+      stopwatch.displayTimer();
     </script>
   </body>
 </html>
